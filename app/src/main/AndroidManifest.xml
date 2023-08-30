@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.START_VIEW_APP_FEATURES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name="com.example.LockGuardPro.App"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher_logo2_background"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_logo2_background"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppLock"
+        tools:targetApi="31">
+        <activity
+            android:name="com.example.LockGuardPro.ui.SplashActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.LockGuardPro.ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.LockGuardPro.ui.MainActivity"
+            android:exported="false"></activity>
+
+        <service android:name="com.example.LockGuardPro.service.LockService" />
+
+        <receiver
+            android:name="com.example.LockGuardPro.service.LockService$GetDataBroadcastReceiver"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+        <receiver
+            android:name="com.example.LockGuardPro.service.LockService$ScreenOnOffReceiver"
+            android:exported="true"
+            tools:ignore="Instantiatable" />
+
+        <activity
+            android:name="com.example.LockGuardPro.ui.inapp.PurchaseInAppActivity"
+            android:exported="false" />
+    </application>
+</manifest>

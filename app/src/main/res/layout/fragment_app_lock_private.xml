@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image_back"
+    tools:context=".ui.lock_app.LockFragment">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/ic_launcher_logo2_background"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:round="@dimen/_12dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/changeTypePass"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="@dimen/_12dp"
+        android:src="@drawable/combination"
+        android:tag="0"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/title_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tạo mật khẩu"
+            android:textColor="@color/black" />
+
+
+        <com.example.LockGuardPro.widget.patternlockview.PatternLockView
+            android:id="@+id/patternLockView"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/LllIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/d0_opsz24" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/d0_opsz24" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/d0_opsz24" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/d0_opsz24" />
+        </LinearLayout>
+
+        <com.example.LockGuardPro.widget.numberlockview.NumberLockView
+            android:id="@+id/numberLockView"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:columnCount="3"
+            android:padding="16dp"
+            android:rowCount="4"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
