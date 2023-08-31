@@ -20,13 +20,14 @@ import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collec
 import com.thn.LockGuardPro.R
 
 
-class PurchaseInAppActivity : AppCompatActivity(), PurchaseInAppAdapter.OnClickListener {
-    private var adapter: PurchaseInAppAdapter? = null
+class PpurchaseInAppActivity : AppCompatActivity(), PppurchaseInAppAdapter.OnClickListener {
+    private var adapter: PppurchaseInAppAdapter? = null
     private var billingClient: BillingClient? = null
     private var handler: Handler? = null
     private var productDetailsList: MutableList<ProductDetails>? = null
     private var onPurchaseResponse: OnPurchaseResponse? = null
     private var listData: RecyclerView? = null
+    private var linearLayout :LinearLayout? = null
     private var imgBack: ImageView? = null
     private var view: LinearLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +56,7 @@ class PurchaseInAppActivity : AppCompatActivity(), PurchaseInAppAdapter.OnClickL
         listData = findViewById(R.id.listData)
         imgBack = findViewById(R.id.imvBack)
         view = findViewById(R.id.view)
-        adapter = PurchaseInAppAdapter()
+        adapter = PppurchaseInAppAdapter()
         listData?.setHasFixedSize(true)
         listData?.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false))
         listData?.setAdapter(adapter)
@@ -99,7 +100,7 @@ class PurchaseInAppActivity : AppCompatActivity(), PurchaseInAppAdapter.OnClickL
                 if (prodDetailsList.size == 0) {
                     view?.visibility = View.VISIBLE
                     Toast.makeText(
-                        this@PurchaseInAppActivity, "prodDetailsList, size = 0", Toast.LENGTH_SHORT
+                        this@PpurchaseInAppActivity, "prodDetailsList, size = 0", Toast.LENGTH_SHORT
                     ).show()
                 }else{
                     view?.visibility = View.GONE
@@ -167,7 +168,7 @@ class PurchaseInAppActivity : AppCompatActivity(), PurchaseInAppAdapter.OnClickL
             ConsumeParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
         billingClient!!.consumeAsync(consumeParams) { billingResult, s ->
             Toast.makeText(
-                this@PurchaseInAppActivity, " Resume item ", Toast.LENGTH_SHORT
+                this@PpurchaseInAppActivity, " Resume item ", Toast.LENGTH_SHORT
             ).show()
         }
     }

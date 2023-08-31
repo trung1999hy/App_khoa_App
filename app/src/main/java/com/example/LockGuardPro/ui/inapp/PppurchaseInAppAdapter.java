@@ -16,7 +16,7 @@ import com.thn.LockGuardPro.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PurchaseInAppAdapter extends RecyclerView.Adapter<PurchaseInAppAdapter.ViewHolder> {
+public class PppurchaseInAppAdapter extends RecyclerView.Adapter<PppurchaseInAppAdapter.ViewHolder> {
 
     private OnClickListener onClickListener;
     private List<ProductDetails> productDetailsList = new ArrayList<>();
