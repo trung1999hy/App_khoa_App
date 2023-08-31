@@ -19,8 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.LockGuardPro.local.Preferences
 import com.example.LockGuardPro.service.LockService
-import com.example.LockGuardPro.ui.applock.PassFragment
-import com.example.LockGuardPro.ui.applock.PassFragment.Companion.TYPE_PASS
+import com.example.LockGuardPro.ui.applock.PassActivtiy
+import com.example.LockGuardPro.ui.applock.PassActivtiy.Companion.TYPE_PASS
 import com.example.LockGuardPro.widget.numberlockview.NumberLockListener
 import com.example.LockGuardPro.widget.patternlockview.PatternLockView
 import com.example.LockGuardPro.widget.patternlockview.listener.PatternLockViewListenerqqq
@@ -36,7 +36,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
     private var biometrics: Boolean = false
     private var pkg: String? = null
     private var lockService: LockService? = null
-    private var typePass: String = PassFragment.Companion.TypePass.TyPePattern.name
+    private var typePass: String = PassActivtiy.Companion.TypePass.TyPePattern.name
     private var windowManager: WindowManager? = null
     private var promptInfo: BiometricPrompt.PromptInfo? = null
     private var biometricPrompt: BiometricPrompt? = null
@@ -60,8 +60,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
         viewPatternOverlayBinding = ViewPatternOverlayBinding.inflate(layoutInflater, null, false)
         pkg = intent.getStringExtra("pkg")
         preferences = Preferences.getInstance(this)
-        typePass =
-            preferences?.getString(TYPE_PASS) ?: PassFragment.Companion.TypePass.TyPePattern.name
+        typePass = intent.getStringExtra(TYPE_PASS)?: preferences?.getString(TYPE_PASS) ?: PassActivtiy.Companion.TypePass.TyPePattern.name
         biometrics = preferences?.getBoolean(SettingsFragment.KEY_BIOMETRICS) == true
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(
@@ -76,7 +75,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
             ).show()
             finish()
         }
-        if (typePass == PassFragment.Companion.TypePass.TypePass.name) {
+        if (typePass == PassActivtiy.Companion.TypePass.TypePass.name) {
             viewPatternOverlayBinding?.patternLockView?.visibility = View.GONE
             viewPatternOverlayBinding?.LllIndicator?.visibility = View.VISIBLE
             viewPatternOverlayBinding?.numberLockView?.visibility = View.VISIBLE
@@ -104,7 +103,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
                 password = if (intent.getStringExtra("pass") != null) {
                     intent.getStringExtra("pass")
                 } else
-                    preferences?.getString(PassFragment.PASS_LOGIN)
+                    preferences?.getString(PassActivtiy.PASS_LOGIN)
 
                 val pass = PatternLockUtiladla.patternToString(
                     viewPatternOverlayBinding?.patternLockView,
@@ -241,7 +240,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
     override fun onComple() {
 
         if (viewPatternOverlayBinding!!.numberLockView.getPass() == preferences?.getString(
-                PassFragment.PASS_LOGIN
+                PassActivtiy.PASS_LOGIN
             )
         ) finish()
         else {

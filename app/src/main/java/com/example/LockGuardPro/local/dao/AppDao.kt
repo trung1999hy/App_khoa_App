@@ -21,7 +21,7 @@ interface AppDao {
     suspend fun insetList(list: ArrayList<Lock>)
 
     @Update
-    suspend fun update(lock: Lock)
+    suspend fun update(lock: Lock)  
 
     @Delete
     suspend fun delete(user: Lock)

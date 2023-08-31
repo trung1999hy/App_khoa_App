@@ -53,7 +53,9 @@ class NumberLockView @JvmOverloads constructor(
     private fun configureButton(button: Button, row: Int, col: Int) {
         when (val value = row * columnCount + col + 1) {
             10 -> {
-                button.visibility = View.GONE
+                button.text = "X"
+                button.setTextColor(context.getColor(R.color.red))
+                button.textSize = 6.dpToPx(context).toFloat()
             }
 
             11 -> {
@@ -61,9 +63,7 @@ class NumberLockView @JvmOverloads constructor(
             }
 
             12 -> {
-                button.text = "X"
-                button.setTextColor(context.getColor(R.color.red))
-                button.textSize = 6.dpToPx(context).toFloat()
+                button.text = "<-"
             }
 
             else -> {
@@ -78,7 +78,7 @@ class NumberLockView @JvmOverloads constructor(
 
     private fun handleButtonClick(button: Button) {
         listener?.let {
-            if (button.text == "X") {
+            if (button.text == "<-") {
                 pass = removeLastChar(pass)
                 it.onXButtonClick()
 
@@ -90,6 +90,10 @@ class NumberLockView @JvmOverloads constructor(
                         it.onComple()
                     }
                 }
+            }
+
+            if(button.text == "X") {
+                pass = ""
             }
             Log.d(TAG, "handleButtonClick:$pass ")
         }

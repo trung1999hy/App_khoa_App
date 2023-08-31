@@ -26,6 +26,7 @@ import com.example.LockGuardPro.local.Preferences
 import com.example.LockGuardPro.model.Lock
 import com.example.LockGuardPro.ui.LoginActivity
 import com.example.LockGuardPro.ui.MainActivity
+import com.example.LockGuardPro.ui.applock.PassActivtiy.Companion.TYPE_PASS
 import com.example.LockGuardPro.ui.listapp.AppListFragment.Companion.ENABLE_APP
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -100,6 +101,9 @@ open class LockService : Service() {
                         lockedAppPackageSet.filter { it.packetName == lastForegroundAppPackage }
                             .getOrNull(0)?.pass
                     )
+                    lockedAppPackageSet.filter { it.packetName == lastForegroundAppPackage }
+                        .getOrNull(0)?.typePass?.let { intent.putExtra(TYPE_PASS, it) }
+
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -241,6 +245,8 @@ open class LockService : Service() {
                             lockedAppPackageSet.filter { it.packetName == lastForegroundAppPackage }
                                 .getOrNull(0)?.pass
                         )
+                        lockedAppPackageSet.filter { it.packetName == lastForegroundAppPackage }
+                            .getOrNull(0)?.typePass?.let { intent.putExtra(TYPE_PASS, it) }
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }

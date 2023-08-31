@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import com.example.LockGuardPro.local.Preferences
-import com.example.LockGuardPro.ui.inapp.PurchaseInAppActivity
+import com.example.LockGuardPro.ui.inapp.PpurchaseInAppActivity
 import com.example.LockGuardPro.ui.applistlockprivate.ListLockPrivateFragment
-import com.example.LockGuardPro.ui.applock.PassFragment
+import com.example.LockGuardPro.ui.applock.PassActivtiy
 import com.example.login.base.BaseFragment
 import com.thn.LockGuardPro.R
 import com.thn.LockGuardPro.databinding.FragmentSettingBinding
@@ -50,7 +50,7 @@ class SettingsFragment : BaseFragment<FragmentSettingBinding>() {
             bundle.putBoolean("changePass", true)
             (activity as MainActivity).openFragment(
                 requireParentFragment(), R.id.fragment_container,
-                PassFragment::class.java, bundle, true
+                PassActivtiy::class.java, bundle, true
             )
         }
         binding.listAppPrivate.setOnClickListener {
@@ -63,7 +63,7 @@ class SettingsFragment : BaseFragment<FragmentSettingBinding>() {
             )
         }
         binding.store.setOnClickListener {
-            startActivity(Intent(requireActivity(), PurchaseInAppActivity::class.java))
+            startActivity(Intent(requireActivity(), PpurchaseInAppActivity::class.java))
         }
     }
 

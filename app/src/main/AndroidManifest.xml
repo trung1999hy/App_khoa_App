@@ -27,6 +27,7 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_logo2_background"
         android:label="@string/app_name"
+        android:enableOnBackInvokedCallback="true"
         android:roundIcon="@mipmap/ic_launcher_logo2_background"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppLock"
@@ -60,7 +61,8 @@
             tools:ignore="Instantiatable" />
 
         <activity
-            android:name="com.example.LockGuardPro.ui.inapp.PurchaseInAppActivity"
+            android:name="com.example.LockGuardPro.ui.inapp.PpurchaseInAppActivity"
             android:exported="false" />
+        <activity android:name="com.example.LockGuardPro.ui.applock.PassTypeActivity"/>
     </application>
 </manifest>

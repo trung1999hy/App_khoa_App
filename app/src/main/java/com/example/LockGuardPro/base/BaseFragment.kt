@@ -66,7 +66,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(),
         initView(savedInstanceState)
         initAction(savedInstanceState)
         listerData(savedInstanceState)
-
     }
 
 

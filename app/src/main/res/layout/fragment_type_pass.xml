@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image_back">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/TextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:gravity="center_horizontal"
+        android:text="Chọn kiểu khóa màn hình"
+        android:textAllCaps="false"
+        android:textColor="#0066FF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/LlDrawPass"
+        android:padding="20dp"
+        android:layout_margin="@dimen/_24dp"
+        android:background="@drawable/bg_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/TextTitle">
+
+        <ImageView
+            android:id="@+id/ImagPass"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/password" />
+
+        <TextView
+            android:id="@+id/TextT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/ImagPass"
+            android:text="Hình mở khóa"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/TextT"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/ImagPass"
+            android:text="Vẽ hình mở khóa đơn giản bằng ngón tay để mở khóa thiết bị"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/LlNumberLock"
+        android:padding="20dp"
+        android:layout_margin="@dimen/_24dp"
+        android:background="@drawable/bg_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/LlDrawPass">
+
+        <ImageView
+            android:id="@+id/ImagPass_"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/enter_pin" />
+
+        <TextView
+            android:id="@+id/TextT_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/ImagPass_"
+            android:text="Mã pin"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/TextT_"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/ImagPass_"
+            android:text="Nhập mã pin gồm 4 ký tự đẻ khóa màn hình"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

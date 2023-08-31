@@ -23,16 +23,15 @@ import com.thn.LockGuardPro.R
 import com.thn.LockGuardPro.databinding.FragmentLockBinding
 
 
-class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
+class PassActivtiy : BaseFragment<FragmentLockBinding>(), NumberLockListener {
 
     companion object {
-        fun newInstance(changePass: Boolean) = PassFragment().apply {
-            this.chanegpass = changePass
-        }
+        fun newInstance() = PassActivtiy()
 
         const val PASS_LOGIN = "PASS_LOGIN"
         const val KEY_BIOMETRICS = "KEY_BIOMETRICS"
         const val TYPE_PASS = "TYPE_PASS"
+        const val CHANGE_PASS = "CHANGE_PASS"
 
         enum class TypePass() {
             TyPePattern, TypePass
@@ -50,16 +49,38 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
     private lateinit var viewModel: PassViewModel
     override fun getLayoutBinding(inflater: LayoutInflater): FragmentLockBinding =
         FragmentLockBinding.inflate(inflater).apply {
-            viewModel = ViewModelProvider(this@PassFragment).get(PassViewModel::class.java)
+            viewModel = ViewModelProvider(this@PassActivtiy).get(PassViewModel::class.java)
         }
 
-    @SuppressLint("SetTextI18n", "ResourceAsColor")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        typePass = arguments?.getString(TYPE_PASS) ?: ""
+        chanegpass = arguments?.getBoolean(CHANGE_PASS) ?: false
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         preferences = Preferences.getInstance(requireContext())
-        typePass = (preferences.getString(TYPE_PASS) ?: TypePass.TypePass.name)
         pass = preferences.getString(PASS_LOGIN) ?: ""
+
         chanegpass = arguments?.getBoolean("changePass", false) ?: false
         biometrics = preferences.getBoolean(KEY_BIOMETRICS) == true;
+        if (typePass == TypePass.TyPePattern.name) {
+            binding.patternLockView.visibility = View.VISIBLE
+            binding.numberLockView.visibility = View.GONE
+            binding.LllIndicator.visibility = View.GONE
+            pass = ""
+            if (chanegpass || pass.isNullOrEmpty()) {
+                binding.titlePass.text = "Tạo mật khẩu"
+            } else {
+                binding.titlePass.text = "Vẽ mật khẩu để đăng nhập"
+            }
+        } else {
+            binding.patternLockView.visibility = View.GONE
+            pass = ""
+            binding.numberLockView.visibility = View.VISIBLE
+            binding.LllIndicator.visibility = View.VISIBLE
+            binding.titlePass.text = "Nhập mật khẩu tối đa 4 ký tự"
+        }
         if (chanegpass || pass.isNullOrEmpty()) {
             pass = ""
             biometrics = false
@@ -74,7 +95,6 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                     binding.numberLockView.visibility = View.GONE
                     binding.LllIndicator.visibility = View.GONE
                 }
-                binding.changeTypePass.visibility = View.GONE
 
             }
         } else {
@@ -89,7 +109,6 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                 binding.LllIndicator.visibility = View.GONE
                 binding.titlePass.text = "Vẽ mật khẩu để đăng nhập"
             }
-            binding.changeTypePass.visibility = View.GONE
 
         }
         if (biometrics) {
@@ -103,31 +122,8 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
         binding.fingerprint.setOnClickListener {
             set()
         }
-        binding.changeTypePass.setOnClickListener {
-            var countClick = binding.changeTypePass.tag.toString().toInt()
-            countClick++
-            binding.changeTypePass.tag = countClick
-            if (binding.changeTypePass.tag.toString() == "2") {
-                binding.changeTypePass.setImageResource(R.drawable.combination)
-                binding.patternLockView.visibility = View.VISIBLE
-                binding.numberLockView.visibility = View.GONE
-                binding.LllIndicator.visibility = View.GONE
-                pass = ""
-                if (chanegpass || pass.isNullOrEmpty()) {
-                    binding.titlePass.text = "Tạo mật khẩu"
-                } else {
-                    binding.titlePass.text = "Vẽ mật khẩu để đăng nhập"
-                }
-                binding.changeTypePass.tag = 0
-            } else {
-                binding.changeTypePass.setImageResource(R.drawable.password)
-                binding.patternLockView.visibility = View.GONE
-                pass = ""
-                binding.numberLockView.visibility = View.VISIBLE
-                binding.LllIndicator.visibility = View.VISIBLE
-                binding.titlePass.text = "Nhập mật khẩu tối đa 4 ký tự"
-            }
-        }
+
+
     }
 
     override fun listerData(savedInstanceState: Bundle?) {
@@ -158,7 +154,7 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                         preferences.setString(PASS_LOGIN, pass)
                         preferences.setString(TYPE_PASS, typePass)
                         (activity as MainActivity).openFragment(
-                            this@PassFragment,
+                            this@PassActivtiy,
                             R.id.fragment_container,
                             (activity as MainActivity).mainFragment.javaClass,
                             null,
@@ -169,13 +165,13 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                         binding.titlePass.text = "Mật khẩu sai vui  lòng nhập lại "
                     }
                 } else
-                    if (pass == PatternLockUtiladla.patternToString(
-                            binding.patternLockView,
-                            pattern
-                        ) && !pass.isNullOrEmpty() && pattern?.size ?: 0 > 3
-                    ) {
+                    pass = PatternLockUtiladla.patternToString(
+                        binding.patternLockView,
+                        pattern
+                    )
+                    if (pass == preferences.getString(PASS_LOGIN) && pattern?.size ?: 0 > 3) {
                         (activity as MainActivity).openFragment(
-                            this@PassFragment,
+                            this@PassActivtiy,
                             R.id.fragment_container,
                             MainFragment::class.java,
                             null,
@@ -225,7 +221,7 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                         ) {
                             super.onAuthenticationSucceeded(result)
                             (activity as MainActivity).openFragment(
-                                this@PassFragment,
+                                this@PassActivtiy,
                                 R.id.fragment_container,
                                 MainFragment::class.java,
                                 null,
@@ -280,7 +276,7 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
                 preferences.setString(PASS_LOGIN, pass)
                 preferences.setString(TYPE_PASS, typePass)
                 (activity as MainActivity).openFragment(
-                    this@PassFragment,
+                    this@PassActivtiy,
                     R.id.fragment_container,
                     (activity as MainActivity).mainFragment.javaClass,
                     null,
@@ -290,7 +286,7 @@ class PassFragment : BaseFragment<FragmentLockBinding>(), NumberLockListener {
         } else {
             if (binding.numberLockView.getPass() == preferences.getString(PASS_LOGIN))
                 (activity as MainActivity).openFragment(
-                    this@PassFragment,
+                    this@PassActivtiy,
                     R.id.fragment_container,
                     (activity as MainActivity).mainFragment.javaClass,
                     null, false

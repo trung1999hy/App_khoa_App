@@ -16,15 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/changeTypePass"
-        android:layout_width="40dp"
-        android:layout_marginEnd="@dimen/_12dp"
-        android:tag="0"
-        android:layout_height="40dp"
-        android:src="@drawable/combination"
-        app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
@@ -60,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_gravity="center"
+            app:normalStateColor="@color/white"
             android:visibility="visible" />
 
         <LinearLayout

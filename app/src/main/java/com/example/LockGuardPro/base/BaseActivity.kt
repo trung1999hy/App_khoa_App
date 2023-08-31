@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.example.login.base.BaseFragment
 import com.thn.LockGuardPro.R
 
 
@@ -41,15 +42,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     }
 
 
-//    override fun onBackPressed() {
-//        val count = supportFragmentManager.backStackEntryCount
-//        if (count == 1) {
-//            finish()
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
-
     @Throws
     open fun openFragment(
         toFragment: Fragment?,
@@ -58,7 +50,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         args: Bundle?,
         addBackStack: Boolean
     ) {
-        val tag = fragmentClazz.simpleName
         try {
             val fragment: Fragment
             try {
@@ -73,11 +64,11 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
 //                    R.anim.exit_to_right
 //                )
                 if (addBackStack) {
-                    transaction.addToBackStack(tag)
+                    transaction.addToBackStack(fragment.tag)
                 }
                 if (toFragment != null)
                     transaction.hide(toFragment)
-                transaction.add(resId, fragment, tag)
+                transaction.add(resId, fragment, fragment.tag)
                 transaction.commit()
             } catch (e: InstantiationException) {
                 e.printStackTrace()
@@ -112,7 +103,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
                         transaction.addToBackStack(tag)
                     }
                     transaction.commitAllowingStateLoss()
-
                 } catch (e: InstantiationException) {
                     e.printStackTrace()
                 } catch (e: IllegalAccessException) {

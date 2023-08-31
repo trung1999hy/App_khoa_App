@@ -14,12 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.LockGuardPro.App
 import com.example.LockGuardPro.base.PermionActivity
 import com.example.LockGuardPro.model.Lock
-import com.example.LockGuardPro.ui.MainActivity
-import com.example.LockGuardPro.ui.AppLockPrivateFragment
-import com.example.LockGuardPro.ui.inapp.PurchaseInAppActivity
+import com.example.LockGuardPro.ui.applock.PassTypeActivity
+import com.example.LockGuardPro.ui.inapp.PpurchaseInAppActivity
 import com.example.login.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
-import com.thn.LockGuardPro.R
 import com.thn.LockGuardPro.databinding.FragmentListAppLockPrivateBinding
 
 
@@ -99,18 +97,20 @@ class ListLockPrivateFragment : BaseFragment<FragmentListAppLockPrivateBinding>(
 
                     ).show()
                     getCoin()
-                    (activity as MainActivity).let {
-                        it.setAppLock(lock)
-                        it.openFragment(
-                            this@ListLockPrivateFragment,
-                            R.id.fragment_container, AppLockPrivateFragment::class.java, null, true
-                        )
-                    }
-
+                    startActivity(
+                        Intent(
+                            requireActivity(),
+                            PassTypeActivity::class.java
+                        ).apply {
+                            val bundle = Bundle()
+                            bundle.putParcelable("lock", lock)
+                            bundle.putSerializable("lockPrivate", true)
+                            putExtras(bundle)
+                        })
                 } else startActivity(
                     Intent(
                         requireActivity(),
-                        PurchaseInAppActivity::class.java
+                        PpurchaseInAppActivity::class.java
                     )
                 )
             }

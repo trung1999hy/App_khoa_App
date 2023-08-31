@@ -18,15 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:round="@dimen/_12dp" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/changeTypePass"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="@dimen/_12dp"
-        android:src="@drawable/combination"
-        android:tag="0"
-        app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"

@@ -7,11 +7,13 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.LockGuardPro.model.Lock
-import com.example.LockGuardPro.ui.applock.PassFragment
+import com.example.LockGuardPro.ui.applock.PassActivtiy
+import com.example.LockGuardPro.ui.applock.PassActivtiy.Companion.TYPE_PASS
 import com.example.LockGuardPro.widget.numberlockview.NumberLockListener
 import com.example.LockGuardPro.widget.patternlockview.PatternLockView
 import com.example.LockGuardPro.widget.patternlockview.listener.PatternLockViewListenerqqq
 import com.example.LockGuardPro.widget.patternlockview.utils.PatternLockUtiladla
+import com.example.athu.base.BaseActivity
 import com.example.login.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import com.thn.LockGuardPro.R
@@ -20,15 +22,14 @@ import com.thn.LockGuardPro.databinding.FragmentAppLockPrivateBinding
 class AppLockPrivateFragment : BaseFragment<FragmentAppLockPrivateBinding>(), NumberLockListener {
 
     companion object {
-        fun newInstance(lock: Lock) = AppLockPrivateFragment().apply {
-            this.lock = lock
-        }
+        fun newInstance(lock: Lock) = AppLockPrivateFragment()
+
 
     }
 
     private var pass: String? = null
     private var lock: Lock? = null
-    private var typePass: String = PassFragment.Companion.TypePass.TyPePattern.name
+    private var typePass: String = PassActivtiy.Companion.TypePass.TyPePattern.name
     private lateinit var viewModel: AppLockPrivateViewModel
     override fun getLayoutBinding(inflater: LayoutInflater): FragmentAppLockPrivateBinding {
         return FragmentAppLockPrivateBinding.inflate(inflater).apply {
@@ -39,39 +40,33 @@ class AppLockPrivateFragment : BaseFragment<FragmentAppLockPrivateBinding>(), Nu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lock = (activity as MainActivity).getAppLock()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        lock = arguments?.getParcelable("lock") as Lock?
+        typePass = arguments?.getString(TYPE_PASS) ?:""
         if (lock == null) {
-            (activity as MainActivity).onBackPressed()
+            finish()
         }
         binding.numberLockView.setListener(this)
+        if (typePass == PassActivtiy.Companion.TypePass.TypePass.name) {
+            binding.patternLockView.visibility = View.GONE
+            binding.numberLockView.visibility = View.VISIBLE
+            binding.LllIndicator.visibility = View.VISIBLE
+            binding.titlePass.text = "Tạo mật khẩu"
+        } else {
+            binding.patternLockView.visibility = View.VISIBLE
+            binding.numberLockView.visibility = View.GONE
+            binding.LllIndicator.visibility = View.GONE
+            binding.titlePass.text = "Nhập mật khẩu tối đa 4 ký tự"
+        }
+
+
     }
 
     override fun initAction(savedInstanceState: Bundle?) {
-        binding.changeTypePass.setOnClickListener {
-            var countClick = binding.changeTypePass.tag.toString().toInt()
-            countClick++
-            binding.changeTypePass.tag = countClick
-            if (binding.changeTypePass.tag.toString() == "2") {
-                binding.changeTypePass.setImageResource(R.drawable.combination)
-                binding.patternLockView.visibility = View.VISIBLE
-                binding.numberLockView.visibility = View.GONE
-                binding.LllIndicator.visibility = View.GONE
-                binding.titlePass.text = "Tạo mật khẩu"
-                binding.changeTypePass.tag = 0
-            } else {
-                binding.changeTypePass.setImageResource(R.drawable.password)
-                binding.patternLockView.visibility = View.GONE
-                binding.numberLockView.visibility = View.VISIBLE
-                binding.LllIndicator.visibility = View.VISIBLE
-                binding.titlePass.text = "Nhập mật khẩu tối đa 4 ký tự"
-            }
-        }
-    }
 
+    }
 
 
     override fun listerData(savedInstanceState: Bundle?) {
@@ -107,7 +102,7 @@ class AppLockPrivateFragment : BaseFragment<FragmentAppLockPrivateBinding>(), Nu
                                 "Bạn đã thêm thành công !",
                                 Toast.LENGTH_LONG
                             ).show()
-                            (activity as MainActivity).onBackPressed()
+                            finish()
                         }
                     }
                 } else {
@@ -162,7 +157,7 @@ class AppLockPrivateFragment : BaseFragment<FragmentAppLockPrivateBinding>(), Nu
                         "Bạn đã thêm thành công !",
                         Toast.LENGTH_LONG
                     ).show()
-                    (activity as MainActivity).onBackPressed()
+                    finish()
                 }
             }
         } else {
