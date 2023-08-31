@@ -60,7 +60,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
         viewPatternOverlayBinding = ViewPatternOverlayBinding.inflate(layoutInflater, null, false)
         pkg = intent.getStringExtra("pkg")
         preferences = Preferences.getInstance(this)
-        typePass = intent.getStringExtra(TYPE_PASS)?: preferences?.getString(TYPE_PASS) ?: PassActivtiy.Companion.TypePass.TyPePattern.name
+        typePass = intent.getStringExtra(TYPE_PASS) ?: preferences?.getString(TYPE_PASS)
+                ?: PassActivtiy.Companion.TypePass.TyPePattern.name
         biometrics = preferences?.getBoolean(SettingsFragment.KEY_BIOMETRICS) == true
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(
@@ -173,7 +174,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
                             errorCode: Int,
                             errString: CharSequence
                         ) {
-
                             super.onAuthenticationError(errorCode, errString)
                             runOnUiThread {
                                 viewPatternOverlayBinding?.titlePass?.text =
@@ -202,7 +202,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
                         }
                     })
                 promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Biometric login for ${getString( R.string.app_name)}")
+                    .setTitle("Biometric login for ${getString(R.string.app_name)}")
                     .setSubtitle("Log in using your biometric credential")
                     .setNegativeButtonText("Cancel")
                     .build()
@@ -238,10 +238,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), NumberLockListener {
     }
 
     override fun onComple() {
+        password = if (intent.getStringExtra("pass") != null) {
+            intent.getStringExtra("pass")
+        } else
+            preferences?.getString(PassActivtiy.PASS_LOGIN)
 
-        if (viewPatternOverlayBinding!!.numberLockView.getPass() == preferences?.getString(
-                PassActivtiy.PASS_LOGIN
-            )
+        if (viewPatternOverlayBinding!!.numberLockView.getPass() == password
         ) finish()
         else {
             viewPatternOverlayBinding!!.titlePass.text = "Vui Lòng nhập lại mật khẩu ?"
