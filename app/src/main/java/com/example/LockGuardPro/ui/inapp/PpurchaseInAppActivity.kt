@@ -16,11 +16,13 @@ import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.BillingFlowParams.ProductDetailsParams
 import com.android.billingclient.api.QueryProductDetailsParams.Product
 import com.example.LockGuardPro.App
+import com.example.LockGuardPro.local.DataController
+import com.example.LockGuardPro.model.User
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import com.thn.LockGuardPro.R
 
 
-class PpurchaseInAppActivity : AppCompatActivity(), PppurchaseInAppAdapter.OnClickListener {
+class   PpurchaseInAppActivity : AppCompatActivity(), PppurchaseInAppAdapter.OnClickListener {
     private var adapter: PppurchaseInAppAdapter? = null
     private var billingClient: BillingClient? = null
     private var handler: Handler? = null
@@ -190,13 +192,32 @@ class PpurchaseInAppActivity : AppCompatActivity(), PppurchaseInAppAdapter.OnCli
     }
 
     private fun setupResult(proId: String, quantity: Int) {
-        val intent = Intent()
-        val totalCoin = App.newInstance().preference?.getValueCoin();
-        val remainCoin = totalCoin ?: 0 + getCoinFromKey(proId) * quantity;
-        App.newInstance().preference?.setValueCoin(remainCoin);
+        val totalCoin = App.newInstance()?.preference?.getValueCoin() ?: 0
+        val remainCoin = totalCoin + getCoinFromKey(proId) * quantity;
+        App.newInstance()?.preference?.setValueCoin(remainCoin);
 
-        setResult(RESULT_OK, intent)
-        runOnUiThread { onBackPressed() }
+        val dataController = DataController(App.newInstance()?.deviceId ?: "")
+        dataController.setOnListenerFirebase(object : DataController.OnListenerFirebase {
+            override fun onCompleteGetUser(user: User?) {
+            }
+
+            override fun onSuccess() {
+                Toast.makeText(
+                    this@PpurchaseInAppActivity,
+                    "Xin chúc mừng, bạn đã mua gold thành công!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            override fun onFailure() {
+                Toast.makeText(
+                    this@PpurchaseInAppActivity,
+                    "Có lỗi kết nối đến server!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+        dataController.updateDocument(totalCoin)
     }
 
     private fun getCoinFromKey(coinId: String): Int {

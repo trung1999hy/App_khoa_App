@@ -1,6 +1,7 @@
 package com.example.LockGuardPro
 
 import android.app.Application
+import android.provider.Settings
 import com.example.LockGuardPro.local.Preferences
 
 class App : Application() {
@@ -26,4 +27,6 @@ class App : Application() {
             return instance!!
         }
     }
+    val deviceId: String
+        get() = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
 }

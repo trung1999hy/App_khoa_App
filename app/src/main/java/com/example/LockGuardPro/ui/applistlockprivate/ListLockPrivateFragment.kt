@@ -13,11 +13,14 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.LockGuardPro.App
 import com.example.LockGuardPro.base.PermionActivity
+import com.example.LockGuardPro.local.DataController
 import com.example.LockGuardPro.model.Lock
+import com.example.LockGuardPro.model.User
 import com.example.LockGuardPro.ui.applock.PassTypeActivity
 import com.example.LockGuardPro.ui.inapp.PpurchaseInAppActivity
 import com.example.login.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
+import com.thn.LockGuardPro.R
 import com.thn.LockGuardPro.databinding.FragmentListAppLockPrivateBinding
 
 
@@ -37,13 +40,14 @@ class ListLockPrivateFragment : BaseFragment<FragmentListAppLockPrivateBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getCoin()
+        getData()
     }
+
     override fun initView(savedInstanceState: Bundle?) {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        adapter = AppLockAdapter {applock ->
+        adapter = AppLockAdapter { applock ->
             if (applock.pass.isNullOrEmpty()) {
                 (activity as PermionActivity<*>).let {
                     it.checkPermission() {
@@ -96,7 +100,8 @@ class ListLockPrivateFragment : BaseFragment<FragmentListAppLockPrivateBinding>(
                         Toast.LENGTH_SHORT
 
                     ).show()
-                    getCoin()
+                    updateGold()
+                    getData()
                     startActivity(
                         Intent(
                             requireActivity(),
@@ -120,8 +125,44 @@ class ListLockPrivateFragment : BaseFragment<FragmentListAppLockPrivateBinding>(
         }
         alertDialog.create().show()
     }
-    fun getCoin() {
-        binding.coin.text = App.newInstance()?.preference?.getValueCoin().toString()
+    private fun updateGold() {
+        val dataController = DataController(App.newInstance()?.deviceId ?: "")
+        dataController.updateDocument(App.newInstance()?.preference?.getValueCoin() ?: 0)
+    }
+    private fun setDataBaseGold() {
+        val dataController = DataController(App.newInstance()?.deviceId ?: "")
+        dataController.writeNewUser(App.newInstance()?.deviceId ?: "", 30)
+    }
+
+    private fun getData() {
+        val dataController = DataController(App.newInstance()?.deviceId ?: "")
+        dataController.setOnListenerFirebase(object : DataController.OnListenerFirebase {
+            override fun onCompleteGetUser(user: User?) {
+                user?.let {
+                    App.newInstance()?.preference?.setValueCoin(user.coin)
+                } ?: kotlin.run {
+                    setDataBaseGold()
+                }
+                binding.coin.text = String.format(
+                    resources.getString(R.string.amount_gold),
+                    App.newInstance()?.preference?.getValueCoin()
+                )
+
+            }
+
+            override fun onSuccess() {
+
+            }
+
+            override fun onFailure() {
+                Toast.makeText(
+                    this@ListLockPrivateFragment.requireContext(),
+                    "Có lỗi kết nối đến server!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+        dataController.user
     }
 
     fun showDialogRemove(lock: Lock) {
