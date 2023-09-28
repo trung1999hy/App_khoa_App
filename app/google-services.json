@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347427944309",
+    "project_id": "applocker-b473a",
+    "storage_bucket": "applocker-b473a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347427944309:android:c10c02d257bcfa1dfb053c",
+        "android_client_info": {
+          "package_name": "com.thn.LockGuardPro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcwiQkhMn-Pmzp8UM0jsn3DOmeqS_caAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
