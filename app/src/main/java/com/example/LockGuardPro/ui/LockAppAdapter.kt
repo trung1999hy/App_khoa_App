@@ -31,7 +31,7 @@ class LockAppAdapter(val itemOnClick: (Lock) -> Unit) :
             layoutItemAppBinding.root.setOnClickListener {
                 itemOnClick.invoke(lock)
             }
-            layoutItemAppBinding.lock.setImageResource(R.drawable.lock_)
+            layoutItemAppBinding.lock.setImageResource(R.drawable.lock)
             layoutItemAppBinding.appName.text = lock.appName
             Glide.with(layoutItemAppBinding.root).load(lock.drawable)
                 .into(layoutItemAppBinding.logoApp)

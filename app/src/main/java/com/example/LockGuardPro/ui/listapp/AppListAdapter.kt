@@ -31,7 +31,7 @@ class AppListAdapter(val type: Int = 0, val itemOnClick: (Lock) -> Unit) :
                 itemOnClick.invoke(lock)
             }
             if (type == 0) {
-                layoutItemAppBinding.lock.setImageResource(R.drawable.unlocked)
+                layoutItemAppBinding.lock.setImageResource(R.drawable.unlock)
             } else layoutItemAppBinding.lock.setImageResource(R.drawable.lock_icon)
             layoutItemAppBinding.appName.text = lock.appName
             Glide.with(layoutItemAppBinding.root).load(lock.drawable)
